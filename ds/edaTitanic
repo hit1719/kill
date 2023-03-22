@@ -1,0 +1,53 @@
+import pandas as pd
+titanic=pd.read_csv("train.csv")
+titanic.head()
+ 
+titanic.info()
+ 
+titanic.describe()
+  titanic.isnull().sum()
+ 
+titanic_cleaned=titanic.drop(['PassengerId','Name','Ticket','Fare','Cabin'],axis=1) #drop all the columns with no effect on depenedent variable
+titanic_cleaned.info()
+ 
+import seaborn as sns#plotting using seaborn
+import matplotlib.pyplot as plt
+%matplotlib inline#will become a part of jupyter nb
+#count plot on the bais of SEX and survived
+sns.catplot(x="Sex",hue="Survived",kind="count",data=titanic_cleaned)#count the number who survived on the basis of sex. hue reps the category  
+ 
+titanic_cleaned.groupby(['Sex','Survived'])['Survived'].count()
+ 
+group1=titanic_cleaned.groupby(['Sex','Survived'])
+gender_survived=group1.size().unstack()#transform row to columns
+gender_survived
+ 
+sns.heatmap(gender_survived,annot=True,fmt="d")#d represents integers annot true means we want to show the data
+ 
+group2=titanic_cleaned.groupby(['Pclass','Survived'])
+Pclass_survived=group2.size().unstack()#transform row to columns
+Pclass_survived
+ 
+sns.heatmap(Pclass_survived,annot=True,fmt="d")
+ 
+#Violin plot-displays distribution of data
+sns.violinplot(x="Sex",y="Age",hue="Survived",data=titanic_cleaned,split=True)
+ 
+ 
+#giving information to a blank value-imputing
+def impute(cols):
+    Age=cols[0]
+    Pclass=cols[1]
+    if pd.isnull(Age):
+        if Pclass==1:
+            return 38
+        elif Pclass==2:
+            return 29
+        else:
+            return 24
+    else:
+        return Age
+titanic_cleaned['Age']=titanic_cleaned[['Age','Pclass']].apply(impute,axis=1)#a single line loop function
+ 
+
+
