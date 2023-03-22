@@ -1,0 +1,39 @@
+titanic=read.csv("train.csv")
+View(titanic)
+ 
+dim(titanic)
+ 
+library(dplyr)
+clean_titanic=titanic%>%select(-c("Cabin","Ticket","Fare","Name")) # deselecting all the rows mentioned
+dim(clean_titanic)
+ 
+View(clean_titanic)
+ 
+str(clean_titanic)
+ 
+clean_titanic=clean_titanic%>%mutate(Pclass=factor(Pclass,levels=c(1,2,3),labels=c("Upper","Middle","Lower")),Survived=factor(Survived,levels=c(0,1),labels=c("Not survived","Survived")))
+clean_titanic=na.omit(clean_titanic)
+ 
+dim(clean_titanic)
+ 	
+dt=sort(sample(nrow(clean_titanic),nrow(clean_titanic)*0.7)) # #dt contains sorted randomly selected rows-70 percent of clean_titanic
+train_titanic=clean_titanic[dt,] # all columns and dt rows
+test_titanic=clean_titanic[-dt,] # all columns and all rows except dt rows
+dim(train_titanic)
+ 
+dim(test_titanic)
+ 
+library(rpart)
+library(rpart.plot)
+titanic_model=rpart(Survived~.,data=train_titanic,method="class")#formula used to represent relationship bw dependent variable and independent variable
+# #~. dot after this symbol will indicate all the independent variables considered for determining the dependent variable value 
+# dependentvar~independentvar
+rpart.plot(titanic_model,extra = 106)
+ 
+predict_unseen=predict(titanic_model,test_titanic,type="class")
+predict_unseen
+ 
+library(caret)
+con_mat=confusionMatrix(test_titanic$Survived,predict_unseen)
+con_mat
+ 
