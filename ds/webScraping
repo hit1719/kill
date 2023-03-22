@@ -23,3 +23,25 @@ df["ID"]=SrNo
 df["Country"]=Country
 df["Population"]=Population
 print(df.head(10))
+
+import pandas as pd
+#reading json from url
+import urllib,json
+url="http://vocab.nic.in/rest.php/states/json"
+response=urllib.request.urlopen(url)
+data=json.loads(response.read())
+print(data)
+----------------------------------
+
+stateid=[]
+statename=[]
+findata=data["states"]
+for item in findata:
+    if "state_id" in item["state"]:
+        stateid.append(item["state"]["state_id"])
+    if "state_name" in item["state"]:
+        statename.append(item["state"]["state_name"])
+dataset=pd.DataFrame()
+dataset["State Id"]=stateid
+dataset["State Name"]=statename
+dataset.head(20)
