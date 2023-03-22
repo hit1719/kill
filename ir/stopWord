@@ -1,0 +1,18 @@
+import nltk 
+nltk.download('stopwords') 
+nltk.download('punkt') 
+from nltk.corpus import stopwords 
+from nltk.tokenize import word_tokenize 
+f=open("file1.txt", "r") 
+for line in f: 
+    print(line) 
+stop_words=set(stopwords.words('english')) 
+tokens=word_tokenize(line) 
+filtered=[w for w in tokens if not w in stop_words] 
+filtered=[] 
+for w in tokens: 
+    if w not in stop_words: 
+        filtered.append(w) 
+
+print(tokens) 
+print(filtered)
