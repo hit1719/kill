@@ -1,0 +1,26 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import sklearn
+boston=pd.read_csv("E:\\TYDatasets\\Boston.csv")
+boston.head()
+boston.info()
+boston=boston.drop(columns="Unnamed: 0")
+boston.head()
+boston_x=pd.DataFrame(boston.iloc[:,:13])#iloc-index locations two parts, before comma: rows after comma: columns/all rows and all columns starting from 0 to 13 excluding 13
+boston_y=pd.DataFrame(boston.iloc[:,-1])#all the rows and the last column selected
+from sklearn.model_selection import train_test_split
+X_train,X_test,Y_train,Y_test=train_test_split(boston_x,boston_y,test_size=0.3)#size=percentage of test data i.e 30 percent
+print("xtrain shape",X_train.shape)#shape indicates num of rows and columns
+ 
+from sklearn.linear_model import LinearRegression
+regression=LinearRegression()
+regression.fit(X_train,Y_train)#regression model will get trained with x and y values
+Y_pred_linear=regression.predict(X_test)
+ 
+plt.scatter(Y_test,Y_pred_linear,c="pink")
+plt.xlabel("Actual price(medv)")
+plt.ylabel("Predicted Price")
+plt.ylabel("Predicted Price")
+plt.title("Actual vs Predicted Price")
+ 
+
