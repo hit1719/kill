@@ -1,0 +1,5 @@
+a=5
+b=7
+print('a AND b = {}'.format(a&b))
+print('a OR b = {}'.format(a|b))
+print('~a = {}'.format(~a))
