@@ -1,0 +1,44 @@
+import numpy as np
+from sklearn import datasets
+x,y,coef = datasets.make_regression(n_samples=100,n_features=1,n_informative=1,noise=10,coef=True,random_state=0)
+#interpolating means giving a range to the variable
+x=np.interp(x,(x.min(),x.max()),(0,20))
+len(x)
+print(x)
+------------------
+#scale target y(salary) to 20000 to 150000
+y=np.interp(y,(y.min(),y.max()),(20000,150000))
+print(y)
+import matplotlib.pyplot as plt
+plt.plot(x,y,'.',label='tarining data')
+plt.xlabel("years of experience")
+plt.ylabel("salary")
+plt.title("experience vs salary")
+from sklearn.linear_model import LinearRegression
+reg_model=LinearRegression()
+reg_model.fit(x,y)
+y_predicted=reg_model.predict(x)
+plt.plot(x,y,'.',label='tarining data')
+plt.plot(x,y_predicted,color="black")
+plt.xlabel("years of experience")
+plt.ylabel("salary")
+plt.title("experience vs salary")
+import pandas as pd
+data = {'Expereience: ':np.round(x.flatten()),'Salary:':np.round(y)}
+df=pd.DataFrame(data)
+df.head(10)
+from sklearn.linear_model import LinearRegression
+%matplotlib inline 
+reg_model=LinearRegression()
+x=np.random.rand(100,1)
+beta0=10
+beta1=7
+error=np.random.rand(100,1)
+y=beta0+beta1*x+error
+reg_model.fit(x,y)
+y_predicted=reg_model.predict(x)
+plt.scatter(x,y,s=10)
+plt.xlabel("X")
+plt.ylabel("Y")
+plt.plot(x,y_predicted,color="black")
+plt.show()
