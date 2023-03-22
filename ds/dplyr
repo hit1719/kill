@@ -1,0 +1,29 @@
+cars_df=read.csv("mtcars.csv")
+View(cars_df)
+str(cars_df)#structure of df
+dim(cars_df)#dimension of df
+#Row names should be converted to the values in model variable and model names should be removed from df
+names(cars_df)#column name vector
+row.names(cars_df)#row name vector
+row.names(cars_df)=cars_df$model
+cars_df=cars_df[,-1]#all the rows and all the columns except 1st column
+library(dplyr)
+df1=select(cars_df,mpg:hp)#select(cars_df,c(1:6))#select(cars_df,c(1,6,8,9))
+head(df1)
+cars_df%>%filter(gear==3|gear==4)%>%select(c(mpg,gear))->df1
+#arrange the data on the basis of cylinders
+df1=cars_df%>%arrange(cyl,desc(mpg))
+View(df1)
+#rename function
+df1=df1%>%rename(MPG=mpg,DISP=disp)#lhs new name and rhs old name
+df1=cars_df%>%mutate(Power=hp*wt)#makes a new column named Power
+#convert integer variable into categorical variable for using group by
+cars_df$cyl=as.factor(cars_df$cyl)
+str(df1)
+#levels of a factor indicates list of possible values occuring in that particular column
+df1=cars_df%>%group_by(cars_df$cyl)%>%summarise(n=n(),meanmpg=mean(mpg)) #n function provides with number of entries of each cylinder type, 
+#group the dataframe by gear and display the number of entries, mean of mpg, mean of disp, mean of wt
+cars_df$gear=as.factor(cars_df$gear)
+df1=cars_df%>%group_by(cars_df$gear)%>%summarise(n=n(),meanmpg=mean(mpg),meandisp=mean(disp),meanwt=mean(wt))
+df2=rename(cars_df,c(MPG=mpg,DISP=disp))
+View(df2)
