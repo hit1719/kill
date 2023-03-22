@@ -1,0 +1,25 @@
+import pandas as pd
+from bs4 import BeautifulSoup
+from urllib.request import urlopen
+url="https://en.wikipedia.org/wiki/List_of_countries_and_dependencies_by_population"
+page=urlopen(url)
+html_page=page.read().decode("utf-8")
+soup=BeautifulSoup(html_page,"html.parser")
+table=soup.find("table",{'class':'wikitable sortable'})
+print(table)
+---------------------------------------
+SrNo=[]
+Country=[]
+Population=[]
+rows=table.find("tbody").find_all("tr")
+for row in rows:
+    cells=row.find_all("td")
+    if(cells):
+        SrNo.append(cells[0].get_text().strip("\n"))
+        Country.append(cells[1].get_text().strip("\xa0").strip("\n").strip('\[2]*'))
+        Population.append(cells[2].get_text().strip("\n").replace(",",""))
+df=pd.DataFrame()
+df["ID"]=SrNo
+df["Country"]=Country
+df["Population"]=Population
+print(df.head(10))
