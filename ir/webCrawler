@@ -1,0 +1,20 @@
+import requests 
+from parsel import Selector 
+
+import time 
+start = time.time() 
+response = requests.get('https://en.wikipedia.org/wiki/Janet_Jackson') 
+selector = Selector(response.text)
+href_links =selector.xpath('//a/@href').getall() 
+image_links = selector.xpath('//img/@src').getall()
+
+print('-------------href_links---------------') 
+print(href_links) 
+print('-------------/href_links---------------')
+
+print('-------------images_links---------------') 
+print(image_links) 
+print('-------------/images_links---------------') 
+
+end = time.time() 
+print("Time taken in seconds : ",(end-start))
