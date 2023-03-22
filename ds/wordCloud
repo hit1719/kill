@@ -1,0 +1,16 @@
+from wordcloud import WordCloud,STOPWORDS
+import matplotlib.pyplot as plt
+import wikipedia as wp
+result=wp.page("Data Science")
+final_result=result.content
+print(final_result)
+-------------------------------
+
+def plot_wordcloud(wc):
+    plt.axis("off")
+    plt.figure(figsize=(10,10))
+    plt.imshow(wc)
+    plt.show()
+wc=WordCloud(width=500,height=500,background_color="cyan",random_state=10,stopwords=STOPWORDS).generate(final_result)
+wc.to_file("ds.png")
+plot_wordcloud(wc)
