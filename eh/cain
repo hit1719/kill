@@ -1,0 +1,12 @@
+1. Open the software, click on Hash Calculator tool as shown 
+in the image
+2. A dialogue box appears after clicking on hash calculator, 
+Add the text 123 >> Calculate hash code >> Copy MD5 hash 
+value
+7
+3. Click on Cracker > MD5 Hashes >> Add list >> Paste Hash 
+Value
+4. Click on hash code right click, Brute-force attack >> Start
+8
+5. It will perform Brute Force Attack and decode the hash 
+value to password
